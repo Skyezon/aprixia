@@ -1,0 +1,25 @@
+version: '1'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_PASSWORD=passwordo
+      - POSTGRES_USER=aprixa
+      - POSTGRES_DB=aprixa
+    container_name: db
+    restart: always
+
+  redis:
+    image: redis
+
+  aprixia:
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+      - redis
+    container_name: aprixia
+    build: . 
