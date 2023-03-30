@@ -1,25 +1,23 @@
-version: '1'
+version: '3'
 
 services:
   db:
-    image: postgres
+    image: postgres:latest
     ports:
-      - 5432
+      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=passwordo
-      - POSTGRES_USER=aprixa
-      - POSTGRES_DB=aprixa
+      - POSTGRES_USER=aprixia
+      - POSTGRES_DB=aprixia
     container_name: db
     restart: always
-
-  redis:
-    image: redis
+    volumes:
+      - ./databaseinit.sql:/docker-entrypoint-initdb.d/databaseinit.sql
 
   aprixia:
     ports:
       - 8080:8080
     depends_on:
       - db
-      - redis
     container_name: aprixia
     build: . 

@@ -3,28 +3,32 @@ package handler
 //request
 
 type GenerateAliasRequest struct {
-    long_url string
+    LongUrl string `json:"long_url"`
 } 
 
 type RedirectAliasRequest struct {
-    short_url string
+    ShortUrl string `json:"short_url"`
 }
 
 type GetStatsRequest struct {
-    short_url string
+    ShortUrl string `json:"short_url"`
 }
 
 //response
 
 type GenerateAliasResponse struct {
-    short_url string
+    ShortUrl string `json:"short_url"`
 }
 
 type RedirectAliasResponse struct {
-    long_url string
+    LongUrl string `json:"long_url"`
 }
 
 type GetStatsResponse struct {
-    redirect_count int
-    create_at string
+    RedirectCount int `json:"redirect_count"`
+    CreateAt string `json:"create_at"`
+}
+
+type ErrorResponse struct {
+    Message string `json:"message"`
 }
