@@ -17,15 +17,16 @@ func main()  {
     fmt.Println("healthCheck completed")
     mux := http.NewServeMux()
 
-    mux.HandleFunc("/",func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintln(w,"Hello world")
-    })
+   // mux.HandleFunc("/",func(w http.ResponseWriter, r *http.Request) {
+    //    fmt.Fprintln(w,"Hello world")
+    //})
     
     mux.HandleFunc("/shorter",handler.GenerateAliasHandler)
-    mux.HandleFunc("/redirect",handler.RedirectAliasHandler)
     mux.HandleFunc("/stats",handler.GetStatsHandler)
+    mux.HandleFunc("/",handler.RedirectAliasHandler)
 
     fmt.Println("Listening on port :8080")
+
     http.ListenAndServe(":8080",mux)
 }
 

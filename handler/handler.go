@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+    "net/url"
+	"strings"
 )
 
 func GenerateAliasHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,16 +40,14 @@ func GenerateAliasHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func RedirectAliasHandler(w http.ResponseWriter, r *http.Request) {
-    if !utils.ValidateMethodPost(r,w){
+    if !utils.ValidateMethodGet(r,w){
         return
     }
 
     var data RedirectAliasRequest
-    err := json.NewDecoder(r.Body).Decode(&data)
-    if err != nil {
-        fmt.Printf("unmarshall error : %v",err)
-         http.Error(w,err.Error(),http.StatusInternalServerError)
-        return
+    parts := strings.Split(r.URL.Path, "/")
+    data = RedirectAliasRequest{
+    ShortUrl: parts[len(parts)-1],
     }
     realUrl, err := service.GetRedirect(data.ShortUrl)
     if err != nil {
@@ -72,13 +72,16 @@ func GetStatsHandler(w http.ResponseWriter, r * http.Request) {
         return
     }
 
-   var data GetStatsRequest
-   err := json.NewDecoder(r.Body).Decode(&data)
-   if err != nil {
-        fmt.Printf("unmarshall error: %v",err)
-         http.Error(w,err.Error(),http.StatusInternalServerError)
+    var data GetStatsRequest
+    u, err := url.Parse(r.URL.String())
+    if err != nil {
+        http.Error(w, "Error parsing URL", http.StatusInternalServerError)
         return
-   }
+    }
+    q := u.Query().Get("q")
+    data = GetStatsRequest{
+        ShortUrl : q,
+    }
     urlData, err := service.GetUrlData(data.ShortUrl)
     if err != nil {
         if err == sql.ErrNoRows{
