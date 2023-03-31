@@ -4,6 +4,7 @@ a simple url shorterner using docker
 This app can be run using docker / the standard way
 
 ## How to run
+if you got any problem when running try checking faq section
 
 ### If you have docker
 1. setup the env.json
@@ -74,6 +75,14 @@ This uses handler -> service -> datasource -> database flow.
 
 # Design decisions
 Because this is the most tried and tested Design choice, easiest to understand, most of people know about this. every layer have their own responsibility and we can locate where the problem/bug is, even without error trace.
+
+# FAQ
+pls don't forget to set the env.json
+
+q : it only shows `running`, but i cannot hit the endpoint  <br>
+s : ussualy it means it stuck when connecting to db, the db host is wrong.
+q : i got connection refused when set the host correctly <br>
+s : tbh i think i can fix this if i configure the network in docker-compose.yaml correctly, for now while the db container is running, run `docker inspect db | grep IPAddress` copy that ip address inside `env.json` replace the `db_host` value with that ip. it should fix the problem
 
 # API Contract
 
