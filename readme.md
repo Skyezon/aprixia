@@ -7,19 +7,20 @@ This app can be run using docker / the standard way
 
 ### If you have docker
 1. setup the env.json
-    i have attached the env.json.example just remove the ".example" so it become `env.json` if you want to use defautl config. 
-    *you may need to adjust the db_host in the env to localhost
-2. make sure docker service/daemon is already running (if using linux/mac you can run `service --status-all | grep docker` if there + it's already running, if you are using wsl check steps after this section)
+    i have attached the `env.json.example` just remove the ".example" so it become `env.json` if you want to use default config. 
+   
+   *you may need to adjust the `db_host` in the env.json to `localhost`
+2. make sure docker service/daemon is already running (if using linux/mac you can run `service --status-all | grep docker` if there is `docker [+]` it's already running, if you are using wsl check steps after this section)
 3. make sure terminal is already at project root folder (after git clone, cd to that folder)
 4. run `docker compose up --build`
-5. you can test the app in your localhost
+5. try hit some endpoints
 
 #### If you use WSL
 there are some extra step before above.
 1. install docker for desktop in windows
 2. run docker desktop (this will enable docker service to start)
 3. adjust the setting in docker desktop to support wsl integration. settings -> resources -> wsl integration -> enable your wsl integartion
-4. because docker adjust their dns to use according to wsl host, you will need to match the db_host (in the env.json) with your wsl namserver (this can be found in : /mnt/wsl/resolv.conf)
+4. because docker adjust their dns to use according to wsl host, you will need to match the `db_host` (in the `env.json`) with your wsl nameserver (this can be found in : `/mnt/wsl/resolv.conf`)
 5. you can continue from above section
 
 ### The Standard way
@@ -31,9 +32,10 @@ there are some extra step before above.
 1. setup the env.json ( you can use env.json.example and rename it to env.json) 
     adjust the env to match your database settings
 2. make sure the postgres service is running
-3. there is `databaseinit.sql` run it in `psql` or any of your database platform (e.g. dbeaver,pgadmin4). this is to setup the database,table & index for the program
+3. there is `databaseinit.sql` run it in `psql` or any of your database platform (e.g. dbeaver,pgadmin4). <br>this is to setup the database,table & index for the program
+
 4. open terminal in root project run `go run main.go` if everything have been setup correctly there should be `Listening on port :8080` in the terminal
-5. you may test the application
+5. try hit some endpoints
 
 
 # Project Directory 
