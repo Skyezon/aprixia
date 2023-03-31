@@ -1,9 +1,11 @@
-#Aprixia
+# Aprixia
 a simple url shorterner using docker
 
 This app can be run using docker / the standard way
 
-##If you have docker
+## How to run
+
+### If you have docker
 1. setup the env.json
     i have attached the env.json.example just remove the ".example" so it become `env.json` if you want to use defautl config. 
     *you may need to adjust the db_host in the env to localhost
@@ -12,7 +14,7 @@ This app can be run using docker / the standard way
 4. run `docker compose up --build`
 5. you can test the app in your localhost
 
-###If you use WSL
+#### If you use WSL
 there are some extra step before above.
 1. install docker for desktop in windows
 2. run docker desktop (this will enable docker service to start)
@@ -20,21 +22,22 @@ there are some extra step before above.
 4. because docker adjust their dns to use according to wsl host, you will need to match the db_host (in the env.json) with your wsl namserver (this can be found in : /mnt/wsl/resolv.conf)
 5. you can continue from above section
 
-##The Standard way
+### The Standard way
 
-###Prerequisite
+#### Prerequisite
 - golang (v 1.18 used in dev)
 - postgres (v 15 used in dev)
 
 1. setup the env.json ( you can use env.json.example and rename it to env.json) 
     adjust the env to match your database settings
 2. make sure the postgres service is running
-3. there is `databaseinit.sql` run it in psql or any of your database platform. this is to setup the database,table & index for the program
+3. there is `databaseinit.sql` run it in `psql` or any of your database platform (e.g. dbeaver,pgadmin4). this is to setup the database,table & index for the program
 4. open terminal in root project run `go run main.go` if everything have been setup correctly there should be `Listening on port :8080` in the terminal
 5. you may test the application
 
 
-#Project Directory 
+# Project Directory 
+```
 .
 ├── Dockerfile
 ├── databaseinit.sql
@@ -58,41 +61,42 @@ there are some extra step before above.
 └── utils
     ├── common.go
     └── common_test.go
+```
 
 This uses handler -> service -> datasource -> database flow. 
-main.go : entry point of the application & also the router of the service
-handler : to handle request and entry point of the request
-service : process logic of the application
-datasource : database logic to connect database and do database operation
-utils : functions that can be used in other packages
+- main.go : entry point of the application & also the router of the service
+- handler : to handle request and entry point of the request
+- service : process logic of the application
+- datasource : database logic to connect database and do database operation
+- utils : functions that can be used in other packages
 
-#Design decisions
+# Design decisions
 Because this is the most tried and tested Design choice, easiest to understand, most of people know about this. every layer have their own responsibility and we can locate where the problem/bug is, even without error trace.
 
-#API Contract
+# API Contract
 
-Url : `/shorter`
-Description : this is to shorthen the url
-Request : raw json
+- Url : `/shorter`
+- Description : this is to shorthen the url
+- Request : raw json
 ```
 {
     "long_url" : "http://google.com"
 }
 ```
-Response : json 
+- Response : json 
 ```
 {
     "short_url": "MY8tW7"
 }
 ```
 ---
-Url : `/stats`
-Description : getting the redirect count & create at of the short url 
-Request : query param with key : "q"
+- Url : `/stats`
+- Description : getting the redirect count & create at of the short url 
+- Request : query param with key : "q"
 ```
 http://localhost:8080/stats?q=MY8tW7
 ```
-Response : json
+- Response : json
 ```
 {
     "redirect_count": 3,
@@ -100,13 +104,13 @@ Response : json
 }
 ```
 ---
-Url : '/'
-Description : just like any other url shorterner just put the url alias
-Request : url value 
+- Url : `/`
+- Description : just like any other url shorterner just put the url alias
+- Request : url value 
 ```
 http://localhost:8080/MY8tW7
 ```
-Response : json
+- Response : json
 ```
 {
     "long_url": "http://google.com"
@@ -114,7 +118,8 @@ Response : json
 ```
 
 ---
-#Postman collection : 
+# Postman collection : 
+you can import this json below if you want have the collection for postman
 ```
 {
 	"info": {
